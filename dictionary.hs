@@ -45,4 +45,15 @@
     
 -}
 
-main = putStrLn "Put your program here!"
+import Data.Char (toLower)
+
+lowerList words = [toLower (head x) : tail x | x <- words]
+lowerWord word = toLower (head word) : tail word
+
+main = do
+    words <- readFile "/usr/share/dict/american-english"
+    putStrLn "Type any word and I will tell you if it is in the dictionary:"
+    word <- getLine
+    if (lowerWord word) `elem` (lowerList (lines words))
+        then putStrLn ("Yes, " ++ word ++ " is in the dictionary.")
+    else putStrLn ("No, " ++ word ++ " is not in the dictionary.")
