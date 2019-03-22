@@ -25,4 +25,10 @@
     
 -}
 
-main = putStrLn "Put your program here!"
+main = do
+    putStrLn "Please enter a string of text (the bigger the better):"
+    string <- getLine
+    putStrLn $ "You entered \"" ++ string ++ "\"."
+    putStrLn $ reverse $ string
+    putStrLn $ unwords $ map (++ " ") (reverse (words string))
+    putStrLn $ unwords $ map (++ " ") (map (reverse) (words string))
