@@ -23,7 +23,29 @@
 
 -}
 
-import PTfuncsyntax
+charToPhoneDigit :: Char -> Int
+charToPhoneDigit c
+  | c `elem` "ABCabc" = 2
+  | c `elem` "DEFdef" = 3
+  | c `elem` "GHIghi" = 4
+  | c `elem` "JKLjkl" = 5
+  | c `elem` "MNOmno" = 6
+  | c `elem` "PQRSpqrs" = 7
+  | c `elem` "TUVtuv" = 8
+  | c `elem` "WXYZwxyz" = 9
+  | otherwise = 0
 
+numListToNum :: [Int] -> Int
+numListToNum intList = (read :: String -> Int) (numString intList)
+numString [] = ""
+numString (x:nums) = show x ++ (numString nums)
 
-main = putStrLn "Put your program here!"
+wordsToPhone :: String -> Int
+wordsToPhoneList wordString = [charToPhoneDigit x|x <- wordString, x `elem` "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"]
+wordsToPhone string = numListToNum (wordsToPhoneList string)
+
+main = do
+    putStrLn "Type a four-digit number:"
+    num <- readLn
+    dictionary <- readFile "/usr/share/dict/american-english"
+    mapM_ putStrLn [show x | x <- (lines dictionary), (wordsToPhone x) == num]
